@@ -212,7 +212,10 @@ def ibatch(iterable, size):
     source = iter(iterable)
     while True:
         batch = itertools.islice(source, size)
-        yield itertools.chain([next(batch)], batch)
+        try:
+            yield itertools.chain([next(batch)], batch)
+        except StopIteration:
+            return 
 
 
 class SQLiteStore(KVStore):
